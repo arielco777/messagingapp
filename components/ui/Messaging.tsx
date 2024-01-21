@@ -76,7 +76,9 @@ const Messaging = () => {
     useEffect(() => {
         // Scroll to the bottom of the message container when messageHistory changes
         if (messagesRef.current) {
-            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+            (messagesRef.current as HTMLDivElement).scrollTop = (
+                messagesRef.current as HTMLDivElement
+            ).scrollHeight;
         }
     }, [messageHistory]);
 
