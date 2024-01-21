@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import { useTheme } from "../components/ui/Context/ThemeContext";
 import { setDefaultHighWaterMark } from "stream";
-import DarkToggle from "@/components/ui/DarkToggle";
 
 const Signin = () => {
     const url = process.env.NEXT_PUBLIC_LOCAL_URL;
@@ -60,10 +58,6 @@ const Signin = () => {
     return (
         <div className={` `}>
             <div className="h-screen dark:bg-neutral-900 bg-neutral-200 transition-all duration-300">
-                <div className="w-14 h-7 absolute right-5 top-5">
-                    <DarkToggle />
-                </div>
-
                 <h1 className="dark:text-neutral-100 text-lg underline">
                     Create User
                 </h1>

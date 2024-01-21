@@ -1,4 +1,4 @@
-import Messaging from "@/components/Messaging";
+import Messaging from "@/components/ui/Messaging";
 import React from "react";
 
 const messaging = () => {

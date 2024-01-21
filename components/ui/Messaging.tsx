@@ -61,8 +61,8 @@ const Messaging = () => {
                 <div className="w-full h-full">
                     <div className="h-[70%] w-full md:w-1/3 border border-neutral-600">
                         {messageHistory.map((m, index) => (
-                            <div key={`${m.who}-${m.idx}`}>
-                                {m.idx} - {m.who}: {m.message}
+                            <div key={`${m.who}-${index}`}>
+                                {index + 1} - {m.who}: {m.message}
                             </div>
                         ))}
                     </div>
