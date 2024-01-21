@@ -18,8 +18,16 @@ const httpUrl =
 
 const ws = new WebSocket(url);
 
-const usernameList = ["ariel", "eli"];
-const password = "popote";
+const users = [
+    {
+        username: "ariel",
+        password: "csquared22",
+    },
+    {
+        username: "eli",
+        password: "popote",
+    },
+];
 
 const Messaging = () => {
     const [username, setUsername] = useState<string>("");
@@ -30,14 +38,12 @@ const Messaging = () => {
     const handleUsername = (event: any) => {
         event.preventDefault();
         const un = event.target[0].value;
-        const checkUn = usernameList.includes(un);
         const pw = event.target[1].value;
-        console.log("CheckUn: ", un);
-        console.log("CheckPw: ", pw);
-        const checkPw = pw === password;
-        if (checkPw && checkUn) {
-            setUsername(event.target[0].value);
-        }
+        const userMatch = users.find(
+            (user) => user.username === un && user.password === pw
+        );
+
+        if (userMatch) setUsername(un);
     };
 
     const handleMessage = (event: any) => {
