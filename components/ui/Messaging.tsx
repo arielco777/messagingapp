@@ -40,10 +40,10 @@ const Messaging = () => {
         const un = event.target[0].value;
         const pw = event.target[1].value;
         const userMatch = users.find(
-            (user) => user.username === un && user.password === pw
+            (user) => user.username === un.toLowerCase() && user.password === pw
         );
 
-        if (userMatch) setUsername(un);
+        if (userMatch) setUsername(userMatch.username);
     };
 
     const handleMessage = (event: any) => {
@@ -121,14 +121,13 @@ const Messaging = () => {
                 </div>
             ) : (
                 <div className="flex flex-col justify-center items-center w-full h-full">
-                    <p className=" w-5/6 py-1 pl-1">{username}</p>
                     <div
                         className="mb-1 h-[70%] w-5/6 md:w-1/3 p-1 rounded border border-neutral-600 "
                         ref={messagesRef}
                         id="messageRef"
                     >
                         <div className="h-full overflow-y-auto flex flex-col gap-2">
-                            {messageHistory.length > 0 &&
+                            {messageHistory &&
                                 messageHistory.map((m, index) => (
                                     <div
                                         key={`${m.who}-${index}`}
