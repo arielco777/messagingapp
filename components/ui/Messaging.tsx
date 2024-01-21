@@ -64,25 +64,33 @@ const Messaging = () => {
         <div className="w-full h-full ">
             {username == "" ? (
                 <div>
-                    <form onSubmit={handleUsername}>
+                    <form onSubmit={handleUsername} className="p-4">
                         <label htmlFor="username">Input a username</label>
                         <input
-                            className="focus:outline-none border border-neutral-400 rounded"
+                            className="px-1 focus:outline-none ml-2 border border-neutral-400 rounded"
                             name="username"
                             id="username"
                         />
+                        <button
+                            type="submit"
+                            className="px-2 text-white rounded  bg-blue-500"
+                        >
+                            Submit
+                        </button>
                     </form>
                 </div>
             ) : (
                 <div className="flex flex-col justify-center items-center w-full h-full  ">
                     <p className=" w-5/6 py-1 pl-1">{username}</p>
-                    <div className="mb-1 h-[70%] w-5/6 md:w-1/3 border border-neutral-600 rounded overflow-y-auto">
+                    <div className="py-2 mb-1 h-[70%] w-5/6 md:w-1/3 bg-blue-50 border border-neutral-600 rounded overflow-y-auto">
                         {messageHistory.map((m, index) => (
                             <div
                                 key={`${m.who}-${index}`}
                                 className={`${
-                                    m.who === username && "bg-green-200"
-                                }`}
+                                    m.who === username
+                                        ? "bg-green-300"
+                                        : "bg-neutral-200"
+                                } mb-1 px-1`}
                             >
                                 {index + 1} - {m.who}: {m.message}
                             </div>
@@ -105,6 +113,12 @@ const Messaging = () => {
                             Send
                         </button>
                     </form>
+                    <button
+                        onClick={() => setUsername("")}
+                        className="px-2 py-1 mt-1 rounded bg-red-500 hover:bg-red-400 text-white"
+                    >
+                        Logout
+                    </button>
                 </div>
             )}
         </div>
