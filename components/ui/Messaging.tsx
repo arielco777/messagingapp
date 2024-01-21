@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type messages = {
     idx: number;
@@ -18,13 +18,26 @@ const httpUrl =
 
 const ws = new WebSocket(url);
 
+const usernameList = ["ariel", "eli"];
+const password = "popote";
+
 const Messaging = () => {
     const [username, setUsername] = useState<string>("");
     const [messageHistory, setMessageHistory] = useState<messages[]>([]);
 
+    const messagesRef = useRef(null);
+
     const handleUsername = (event: any) => {
         event.preventDefault();
-        setUsername(event.target[0].value);
+        const un = event.target[0].value;
+        const checkUn = usernameList.includes(un);
+        const pw = event.target[1].value;
+        console.log("CheckUn: ", un);
+        console.log("CheckPw: ", pw);
+        const checkPw = pw === password;
+        if (checkPw && checkUn) {
+            setUsername(event.target[0].value);
+        }
     };
 
     const handleMessage = (event: any) => {
@@ -32,16 +45,16 @@ const Messaging = () => {
         const message = event.target[0].value;
         if (message === "") return;
         const newMessage = { who: username, message };
-
         ws.send(JSON.stringify(newMessage));
-
         event.target[0].value = "";
     };
 
     const justLogged = async () => {
-        const history = await fetch(`${httpUrl}/messaging`).then((response) =>
-            response.json()
-        );
+        const history = await fetch(`${httpUrl}/messaging`)
+            .then((response) => response.json())
+            .catch((error) =>
+                console.error("Error getting history when logging in: ", error)
+            );
         setMessageHistory(history);
     };
 
@@ -50,7 +63,7 @@ const Messaging = () => {
 
         ws.onmessage = (event) => {
             const updatedMessageHistory = JSON.parse(event.data);
-            console.log("updatedmessage: ", updatedMessageHistory);
+            // console.log("updatedmessage: ", updatedMessageHistory);
             setMessageHistory(updatedMessageHistory);
         };
 
@@ -60,45 +73,71 @@ const Messaging = () => {
         };
     }, []);
 
+    useEffect(() => {
+        // Scroll to the bottom of the message container when messageHistory changes
+        if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+    }, [messageHistory]);
+
     return (
         <div className="w-full h-full ">
             {username == "" ? (
-                <div>
-                    <form onSubmit={handleUsername} className="p-4">
-                        <label htmlFor="username">Input a username</label>
+                <div className="h-full w-full flex flex-col justify-center items-center ">
+                    <form
+                        onSubmit={handleUsername}
+                        className="flex flex-col border border-neutral-300 p-4 rounded"
+                    >
+                        <label htmlFor="username" className="">
+                            Username
+                        </label>
                         <input
-                            className="px-1 focus:outline-none ml-2 border border-neutral-400 rounded"
+                            className="px-1  focus:outline-none border border-neutral-400 rounded"
                             name="username"
                             id="username"
                         />
+                        <label htmlFor="password">Password</label>
+                        <input
+                            className="px-1  focus:outline-none border border-neutral-400 rounded"
+                            name="password"
+                            id="password"
+                            type="password"
+                        />
                         <button
                             type="submit"
-                            className="px-2 text-white rounded  bg-blue-500"
+                            className="px-2 mt-3 text-white rounded  bg-blue-500"
                         >
                             Submit
                         </button>
                     </form>
                 </div>
             ) : (
-                <div className="flex flex-col justify-center items-center w-full h-full  ">
+                <div className="flex flex-col justify-center items-center w-full h-full">
                     <p className=" w-5/6 py-1 pl-1">{username}</p>
-                    <div className="py-2 mb-1 h-[70%] w-5/6 md:w-1/3 bg-blue-50 border border-neutral-600 rounded overflow-y-auto">
-                        {messageHistory.map((m, index) => (
-                            <div
-                                key={`${m.who}-${index}`}
-                                className={`${
-                                    m.who === username
-                                        ? "bg-green-300"
-                                        : "bg-neutral-200"
-                                } mb-1 px-1`}
-                            >
-                                {index + 1} - {m.who}: {m.message}
-                            </div>
-                        ))}
+                    <div
+                        className="mb-1 h-[70%] w-5/6 md:w-1/3 p-1 rounded border border-neutral-600 "
+                        ref={messagesRef}
+                        id="messageRef"
+                    >
+                        <div className="h-full overflow-y-auto flex flex-col gap-2">
+                            {messageHistory.map((m, index) => (
+                                <div
+                                    key={`${m.who}-${index}`}
+                                    className={`${
+                                        m.who === username
+                                            ? "bg-green-300 text-right"
+                                            : "bg-neutral-200"
+                                    }  px-3 py-1 rounded `}
+                                >
+                                    {m.who !== username && m.who + ": "}{" "}
+                                    {m.message}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <form
                         onSubmit={handleMessage}
-                        className="w-5/6 md:w-1/3 h-10 border border-neutral-400 rounded flex justify-between"
+                        className="w-5/6 md:w-1/3 h-10 border border-blue-500 rounded flex justify-between"
                     >
                         <input
                             className="focus:outline-none rounded px-2 w-full"
