@@ -6,9 +6,12 @@ type messages = {
     message: string;
 };
 
-const ws = new WebSocket("ws://localhost:3001");
+const url =
+    process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_URL
+        : process.env.NEXT_PUBLIC_LOCAL_URL;
 
-const url = process.env.NEXT_PUBLIC_LOCAL_URL;
+const ws = new WebSocket(`ws://${url}`);
 
 const Messaging = () => {
     const [username, setUsername] = useState<string>("");
