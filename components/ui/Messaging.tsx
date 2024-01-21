@@ -6,14 +6,14 @@ type messages = {
     message: string;
 };
 
-// const url =
-//     process.env.NODE_ENV === "production"
-//         ? process.env.NEXT_PUBLIC_PROD_URL
-//         : process.env.NEXT_PUBLIC_LOCAL_URL;
+const url =
+    process.env.NODE_ENV === "production"
+        ? `wss://${process.env.NEXT_PUBLIC_PROD_URL}`
+        : `ws://${process.env.NEXT_PUBLIC_LOCAL_URL}`;
 
-const url = process.env.NEXT_PUBLIC_PROD_URL;
+// const url = process.env.NEXT_PUBLIC_PROD_URL;
 
-const ws = new WebSocket(`wss://${url}`);
+const ws = new WebSocket(url);
 
 const Messaging = () => {
     const [username, setUsername] = useState<string>("");
@@ -27,6 +27,7 @@ const Messaging = () => {
     const handleMessage = (event: any) => {
         event.preventDefault();
         const message = event.target[0].value;
+        if (message === "") return;
         const newMessage = { who: username, message };
 
         ws.send(JSON.stringify(newMessage));
@@ -37,6 +38,7 @@ const Messaging = () => {
     useEffect(() => {
         ws.onmessage = (event) => {
             const updatedMessageHistory = JSON.parse(event.data);
+            console.log("updatedmessage: ", updatedMessageHistory);
             setMessageHistory(updatedMessageHistory);
         };
 
@@ -62,7 +64,7 @@ const Messaging = () => {
             ) : (
                 <div className="flex flex-col justify-center items-center w-full h-full  ">
                     <p className=" w-5/6 py-1 pl-1">{username}</p>
-                    <div className="mb-1 h-[70%] w-5/6 md:w-1/3 border border-neutral-600 rounded">
+                    <div className="mb-1 h-[70%] w-5/6 md:w-1/3 border border-neutral-600 rounded overflow-y-auto">
                         {messageHistory.map((m, index) => (
                             <div
                                 key={`${m.who}-${index}`}
