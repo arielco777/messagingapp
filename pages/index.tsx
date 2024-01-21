@@ -1,6 +1,3 @@
-import { setServers } from "dns";
-import { useEffect, useState } from "react";
-
 // const checkTables = async (url: string) => {
 //     const response = await fetch(url);
 //     const data = await response.json();
