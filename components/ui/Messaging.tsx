@@ -50,7 +50,7 @@ const Messaging = () => {
     }, []);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full ">
             {username == "" ? (
                 <div>
                     <form onSubmit={handleUsername}>
@@ -63,20 +63,30 @@ const Messaging = () => {
                     </form>
                 </div>
             ) : (
-                <div className="w-full h-full">
-                    <div className="h-[70%] w-full md:w-1/3 border border-neutral-600">
+                <div className="flex flex-col justify-center items-center w-full h-full  ">
+                    <p className=" w-5/6 py-1 pl-1">{username}</p>
+                    <div className="mb-1 h-[70%] w-5/6 md:w-1/3 border border-neutral-600 rounded">
                         {messageHistory.map((m, index) => (
                             <div key={`${m.who}-${index}`}>
                                 {index + 1} - {m.who}: {m.message}
                             </div>
                         ))}
                     </div>
-                    <form onSubmit={handleMessage}>
+                    <form
+                        onSubmit={handleMessage}
+                        className="w-5/6 md:w-1/3 h-10 border border-neutral-400 rounded flex justify-between"
+                    >
                         <input
-                            className="focus:outline-none border border-neutral-400 rounded"
+                            className="focus:outline-none rounded pl-2"
                             type="text"
                             name="message"
                         />
+                        <button
+                            type="submit"
+                            className="px-2 text-white bg-blue-500 hover:bg-blue-400"
+                        >
+                            Send
+                        </button>
                     </form>
                 </div>
             )}
