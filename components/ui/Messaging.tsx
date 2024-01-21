@@ -122,19 +122,20 @@ const Messaging = () => {
                         id="messageRef"
                     >
                         <div className="h-full overflow-y-auto flex flex-col gap-2">
-                            {messageHistory.map((m, index) => (
-                                <div
-                                    key={`${m.who}-${index}`}
-                                    className={`${
-                                        m.who === username
-                                            ? "bg-green-300 text-right"
-                                            : "bg-neutral-200"
-                                    }  px-3 py-1 rounded `}
-                                >
-                                    {m.who !== username && m.who + ": "}{" "}
-                                    {m.message}
-                                </div>
-                            ))}
+                            {messageHistory.length > 0 &&
+                                messageHistory.map((m, index) => (
+                                    <div
+                                        key={`${m.who}-${index}`}
+                                        className={`${
+                                            m.who === username
+                                                ? "bg-green-300 text-right"
+                                                : "bg-neutral-200"
+                                        }  px-3 py-1 rounded `}
+                                    >
+                                        {m.who !== username && m.who + ": "}{" "}
+                                        {m.message}
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     <form
