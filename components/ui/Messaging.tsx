@@ -11,7 +11,10 @@ const url =
         ? `wss://${process.env.NEXT_PUBLIC_PROD_URL}`
         : `ws://${process.env.NEXT_PUBLIC_LOCAL_URL}`;
 
-// const url = process.env.NEXT_PUBLIC_PROD_URL;
+const httpUrl =
+    process.env.NODE_ENV === "production"
+        ? `https://${process.env.NEXT_PUBLIC_PROD_URL}`
+        : `http://${process.env.NEXT_PUBLIC_LOCAL_URL}`;
 
 const ws = new WebSocket(url);
 
@@ -35,7 +38,16 @@ const Messaging = () => {
         event.target[0].value = "";
     };
 
+    const justLogged = async () => {
+        const history = await fetch(`${httpUrl}/messaging`).then((response) =>
+            response.json()
+        );
+        setMessageHistory(history);
+    };
+
     useEffect(() => {
+        justLogged();
+
         ws.onmessage = (event) => {
             const updatedMessageHistory = JSON.parse(event.data);
             console.log("updatedmessage: ", updatedMessageHistory);
