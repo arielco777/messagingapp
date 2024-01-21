@@ -14,12 +14,12 @@ const Messaging = () => {
     const [username, setUsername] = useState<string>("");
     const [messageHistory, setMessageHistory] = useState<messages[]>([]);
 
-    const handleUsername = (event) => {
+    const handleUsername = (event: any) => {
         event.preventDefault();
         setUsername(event.target[0].value);
     };
 
-    const handleMessage = (event) => {
+    const handleMessage = (event: any) => {
         event.preventDefault();
         const message = event.target[0].value;
         const newMessage = { who: username, message };

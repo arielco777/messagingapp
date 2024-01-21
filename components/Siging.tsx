@@ -6,7 +6,7 @@ import DarkToggle from "@/components/ui/DarkToggle";
 const Signin = () => {
     const url = process.env.NEXT_PUBLIC_LOCAL_URL;
 
-    const createUser = async (info) => {
+    const createUser = async (info: any) => {
         info.preventDefault();
         const username = info.target[0].value;
         const password = info.target[1].value;
@@ -26,7 +26,7 @@ const Signin = () => {
         if (responseDiv) responseDiv.innerHTML = data.message;
     };
 
-    const login = async (info) => {
+    const login = async (info: any) => {
         console.log(url);
         info.preventDefault();
         const username = info.target[0].value;
