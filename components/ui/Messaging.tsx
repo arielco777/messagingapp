@@ -29,10 +29,8 @@ const Messaging = () => {
         const message = event.target[0].value;
         const newMessage = { who: username, message };
 
-        // Send the new message through the WebSocket connection
         ws.send(JSON.stringify(newMessage));
 
-        // Clear the input field
         event.target[0].value = "";
     };
 
@@ -40,7 +38,6 @@ const Messaging = () => {
         ws.onmessage = (event) => {
             const updatedMessageHistory = JSON.parse(event.data);
             setMessageHistory(updatedMessageHistory);
-            console.log(event);
         };
 
         return () => {
@@ -67,7 +64,12 @@ const Messaging = () => {
                     <p className=" w-5/6 py-1 pl-1">{username}</p>
                     <div className="mb-1 h-[70%] w-5/6 md:w-1/3 border border-neutral-600 rounded">
                         {messageHistory.map((m, index) => (
-                            <div key={`${m.who}-${index}`}>
+                            <div
+                                key={`${m.who}-${index}`}
+                                className={`${
+                                    m.who === username && "bg-green-200"
+                                }`}
+                            >
                                 {index + 1} - {m.who}: {m.message}
                             </div>
                         ))}
