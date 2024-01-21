@@ -1,12 +1,11 @@
 import { setServers } from "dns";
 import { useEffect, useState } from "react";
-import { useTheme } from "../components/ui/Context/ThemeContext";
 
-const checkTables = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-};
+// const checkTables = async (url: string) => {
+//     const response = await fetch(url);
+//     const data = await response.json();
+//     console.log(data);
+// };
 
 const Page = () => {
     // const url = process.env.NEXT_PUBLIC_LOCAL_URL;
@@ -20,12 +19,8 @@ const Page = () => {
     //     const data = await response.json();
     //     console.log(data);
 
-    useEffect(() => {
-        localStorage.setItem("dm", JSON.stringify(dark));
-    }, [dark]);
-
     return (
-        <div className={`${dark && "dark"}`}>
+        <div>
             <div
                 className={` h-screen relative bg-neutral-50 dark:bg-neutral-900 transition-all`}
             >
