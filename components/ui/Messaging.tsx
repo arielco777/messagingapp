@@ -77,8 +77,9 @@ const Messaging = () => {
                         className="w-5/6 md:w-1/3 h-10 border border-neutral-400 rounded flex justify-between"
                     >
                         <input
-                            className="focus:outline-none rounded px-2 w-full bg-red-100"
+                            className="focus:outline-none rounded px-2 w-full"
                             type="text"
+                            placeholder="Write your message here..."
                             name="message"
                         />
                         <button
