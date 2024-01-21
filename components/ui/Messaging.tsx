@@ -6,12 +6,14 @@ type messages = {
     message: string;
 };
 
-const url =
-    process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_URL
-        : process.env.NEXT_PUBLIC_LOCAL_URL;
+// const url =
+//     process.env.NODE_ENV === "production"
+//         ? process.env.NEXT_PUBLIC_PROD_URL
+//         : process.env.NEXT_PUBLIC_LOCAL_URL;
 
-const ws = new WebSocket(`ws://${url}`);
+const url = process.env.NEXT_PUBLIC_PROD_URL;
+
+const ws = new WebSocket(`wss://${url}`);
 
 const Messaging = () => {
     const [username, setUsername] = useState<string>("");
