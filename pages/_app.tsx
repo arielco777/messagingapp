@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
 import "../app/globals.css";
 
-// import { ThemeProvider, useTheme } from "../components/ui/Context/ThemeContext";
 import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -16,9 +15,5 @@ export default function App({ Component, pageProps }: AppProps) {
         if (dm) setDark(JSON.parse(dm));
     }, []);
 
-    return (
-        // <ThemeProvider>
-        <Component {...pageProps} />
-        // </ThemeProvider>
-    );
+    return <Component {...pageProps} />;
 }
